@@ -1,0 +1,24 @@
+{
+  "name": "Intenta Demo!",
+  "version": "1.0",
+  "manifest_version":2,
+  "description": "Intenta Demo Integration Chrome extension.",
+  "browser_action": {
+    "default_icon": "logo.png",
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "tabs","cookies", "http://*/", "https://*/","webRequest", "webRequestBlocking"
+  ],
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "content_scripts":[
+  	{
+  		"matches": [
+  			"<all_urls>"
+  		],
+      "js": ["extension.js"]
+  	}
+  ]
+}
