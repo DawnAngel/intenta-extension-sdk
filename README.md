@@ -16,9 +16,10 @@ Basic example of how to integrate w/ Intenta plugin
   You have something wrong if you see this in the chrome debugger:
   ![](https://www.evernote.com/shard/s145/sh/b0810652-2ef4-4d96-b5ec-9ee84def6e1d/1343c2a6a8dddd5eba78e9c9952de903/deep/0/(85)-Facebook.png)
 
-  Possible Solutions:
-  * Missing Permission "webRequestBlocking"
-  
+## Issues
+
+#### Facebook not working
+##### Missing Permission "webRequestBlocking"
 ```
 "permissions": [
 	"tabs","cookies", "http://*/", "https://*/","webRequest", "webRequestBlocking"
