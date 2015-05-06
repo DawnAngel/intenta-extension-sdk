@@ -19,7 +19,7 @@ Basic example of how to integrate w/ Intenta plugin
 ## Issues
 
 #### Facebook not working
-##### Missing Permission
+##### Issue 1: Missing Permission
 Make sure you are not missing the "webRequestBlocking" permission in your manifest.json
 ```
 "permissions": [
@@ -27,7 +27,7 @@ Make sure you are not missing the "webRequestBlocking" permission in your manife
 	],
 ```	
 
-##### background.js code not integrated.
+##### Issue 2: background.js code not integrated.
 In your manifest.json file
 
 ```
