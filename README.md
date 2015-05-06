@@ -36,4 +36,5 @@ In your manifest.json file
   },
 ```
 
-Add all the code in this background.js to your background.js file.
+Add all the code in this background.js to your background.js file. 
+If this doesn't work, look at the background.js docs inside the Publishers dashboard of dashboard.intenta.io UI (we might have forgotten to upgrade this demo code)
