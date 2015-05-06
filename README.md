@@ -18,7 +18,9 @@ Basic example of how to integrate w/ Intenta plugin
 
   Possible Solutions:
   * Missing Permission "webRequestBlocking"
-```"permissions": [
+  
+```
+"permissions": [
 	"tabs","cookies", "http://*/", "https://*/","webRequest", "webRequestBlocking"
 	],
 ```	
