@@ -5,8 +5,9 @@
 var domainsToAdd = ['*.intenta.io'];
 
 function appendDomainsToPolicyHeaders(policy, domainsToAdd){
-    var rules  = policy.split(';');
 
+    var rules  = policy.split(';');
+    rules = rules.map(function(s) { return s.trim() });
     for(var i = 0; i < rules.length; i++){
         var rulesToAppendTo = [
         'script-src', //Allow scripts to be loaded from other domains.
@@ -14,7 +15,9 @@ function appendDomainsToPolicyHeaders(policy, domainsToAdd){
         ];
         var rule = rules[i];
         var endOfRuleNameIndex = rule.indexOf(" ");
+
         if(endOfRuleNameIndex > 0){
+
             var ruleName = rule.substr(0, endOfRuleNameIndex);
             if(rulesToAppendTo.indexOf(ruleName) >= 0){
                 rules[i] = rules[i] + ' ' + domainsToAdd.join(" ");
