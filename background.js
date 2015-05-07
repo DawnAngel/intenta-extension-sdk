@@ -30,14 +30,25 @@ function appendDomainsToPolicyHeaders(policy, domainsToAdd){
 
 //Add a listener to override response headers which allows for injecting scripts and making xhr requests.
 chrome.webRequest.onHeadersReceived.addListener(function (details){
-    for (i = 0; i < details.responseHeaders.length; i++) {
-        if (details.responseHeaders[i].name.toUpperCase() == "CONTENT-SECURITY-POLICY") {
-            var policy = details.responseHeaders[i].value;
-            newRules = appendDomainsToPolicyHeaders(policy, domainsToAdd);
-            details.responseHeaders[i].value = newRules;
+    var overrides = {};
+    var blacklist = ["google.com"]; //Don't override on these sites, they cause problems.
+    for(var blackIndex = 0; blackIndex < blacklist.length; blackIndex++){
+        if(details.url.indexOf(blacklist[blackIndex])<0){
+            
+            for (i = 0; i < details.responseHeaders.length; i++) {
+                if (details.responseHeaders[i].name.toUpperCase() == "CONTENT-SECURITY-POLICY") {
+            
+                    var policy = details.responseHeaders[i].value;
+                    newRules = appendDomainsToPolicyHeaders(policy, domainsToAdd);
+                    details.responseHeaders[i].value = newRules;
+                }
+            }
+            overrides = { responseHeaders : details.responseHeaders};  
         }
     }
-    return { responseHeaders : details.responseHeaders};
+    
+    return overrides;
+
     },
     {
         urls: ["<all_urls>"],
