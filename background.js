@@ -37,7 +37,7 @@ chrome.webRequest.onHeadersReceived.addListener(function (details){
     return { responseHeaders : details.responseHeaders};
     },
     {
-        urls: ["https://www.facebook.com/"],
+        urls: ["<all_urls>"],
         types : ["main_frame", "sub_frame", "stylesheet", "script", "image", "object", "xmlhttprequest", "other"]
     },
     ["blocking", "responseHeaders"]
