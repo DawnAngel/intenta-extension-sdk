@@ -1,8 +1,14 @@
 # intenta-plugin-example
 Basic example of how to integrate w/ Intenta plugin
 
+## Integration Steps
+* Copy background.js code from this repo into your background.js file.
+* Copy intenta.js file from this repo into your extension folder
+* Replace token in intenta.js file with yours from UI
+* Add intenta.js to content_scripts section in your manifest.json file set to matches <all_urls>
+* Add permissions to your manifest.json
 
-# Testing this example
+## Testing this or your own integration
 
 * [Download the Zip](https://github.com/netplenish/intenta-plugin-example/archive/master.zip)
 * Unzip and install unpacked using chrome developer mode.
