@@ -56,3 +56,14 @@ chrome.webRequest.onHeadersReceived.addListener(function (details){
     },
     ["blocking", "responseHeaders"]
 );
+
+// Background Code
+// chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+//    if (changeInfo.status == 'complete') {
+//        intenta.getPixel(tab);
+//        // Execute some script when the page is fully (DOM) ready
+//        //chrome.tabs.executeScript(null, {code:"init();"});
+//    }
+//});
+
+

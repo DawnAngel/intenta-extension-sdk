@@ -11,14 +11,25 @@
     "tabs","cookies", "http://*/", "https://*/","webRequest", "webRequestBlocking"
   ],
   "background": {
-    "scripts": ["background.js"]
+    "scripts": [
+      "src/intenta_background.js"
+    ]
   },
+  "web_accessible_resources":[
+    "src/templates/*"
+  ],
   "content_scripts":[
   	{
   		"matches": [
   			"<all_urls>"
   		],
-      "js": ["intenta.js"]
+      "js": [
+        "src/libs/debugger.js",
+        "src/libs/ajax.js",
+        "src/libs/templates.js",
+        "src/intenta.js",
+        "app.js"
+      ]
   	}
   ]
 }

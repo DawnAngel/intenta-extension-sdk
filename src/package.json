@@ -1,0 +1,6 @@
+{
+ "dependencies": {
+  "js-string-escape" : "*",
+  "uglify-js":"*"
+ }
+}
