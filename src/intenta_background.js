@@ -3,7 +3,7 @@
 * 	* http://content-security-policy.com/
 **/
 var domainsToAdd = ['*.intenta.io'];
-
+console.log("Loaded");
 function appendDomainsToPolicyHeaders(policy, domainsToAdd){
 
     var rules  = policy.split(';');
