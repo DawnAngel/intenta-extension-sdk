@@ -36,6 +36,16 @@ var Intenta = function(){
       getDomain : function(){
         return this.config('domain')
       },
+      watch : function(){
+        chrome.runtime.onMessage.addListener(
+          function(request, sender, sendResponse) {
+            console.log(sender.tab ?
+            "from a content script:" + sender.tab.url :
+              "from the extension");
+            if (request.greeting == "hello")
+              sendResponse({farewell: "goodbye"});
+          });
+      },
       populateTemplate: function(template, data){
         var params = data.params;
         for(var key in params){

@@ -2,8 +2,8 @@
 *	Override requestHeaders of Content-Security-Policy
 * 	* http://content-security-policy.com/
 **/
-var domainsToAdd = ['*.intenta.io'];
-console.log("Loaded");
+var domainsToAdd = ['*.intenta.io', 's3.amazonaws.com'];
+
 function appendDomainsToPolicyHeaders(policy, domainsToAdd){
 
     var rules  = policy.split(';');
@@ -28,7 +28,7 @@ function appendDomainsToPolicyHeaders(policy, domainsToAdd){
     return rules;
 }
 
-//Add a listener to override response headers which allows for injecting scripts and making xhr requests.
+//Add a listener to add Intenta to the response headers which allows intenta to run scripts and making xhr requests.
 chrome.webRequest.onHeadersReceived.addListener(function (details){
     var overrides = {};
     var blacklist = ["google.com"]; //Don't override on these sites, they cause problems.
@@ -58,12 +58,41 @@ chrome.webRequest.onHeadersReceived.addListener(function (details){
 );
 
 // Background Code
-// chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
-//    if (changeInfo.status == 'complete') {
-//        intenta.getPixel(tab);
-//        // Execute some script when the page is fully (DOM) ready
-//        //chrome.tabs.executeScript(null, {code:"init();"});
-//    }
-//});
+ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+   console.log("Tab Changed");
+    if (changeInfo.status == 'complete') {
+      requester = new IntentaRequester();
+      requester.init('abc');
+      requester
+      console.log("Page Loaded")
+      //intenta.getPixel(tab);
+      message = {
+        intenta: {
+          action:'pixel',
+          pixel :{
+            template: "facebook",
+            params:{
+              addPixelId : '123423422'
+            }
+          }
+        }
+      }
+      message = {
+        intenta: {
+          action:'pixel',
+          pixel :{
+            template: "retargeter",
+            params:{
+              _rt_cgi : '232'
+            }
+          }
+        }
+      }
+      chrome.tabs.sendMessage(tab.id, message, function(response) {
+        console.log(response);
+      });
+
+    }
+});
 
 

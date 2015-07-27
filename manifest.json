@@ -12,7 +12,7 @@
   ],
   "background": {
     "scripts": [
-      "src/intenta_background.js"
+      "src/libs/ajax.js","src/libs/requester.js","src/intenta_background.js"
     ]
   },
   "web_accessible_resources":[
@@ -27,7 +27,7 @@
         "src/libs/debugger.js",
         "src/libs/ajax.js",
         "src/libs/templates.js",
-        "src/intenta.js",
+        "src/libs/pixeler.js",
         "app.js"
       ]
   	}
