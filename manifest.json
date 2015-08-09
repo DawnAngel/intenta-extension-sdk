@@ -1,8 +1,13 @@
 {
-  "name": "Intenta Demo!",
-  "version": "1.0",
+  "name": "Intenta SDK",
+  "version": "2.0.1",
   "manifest_version":2,
-  "description": "Intenta Demo Integration Chrome extension.",
+  "description": "Intenta CHROME SDK Demo",
+  "icons": {
+    "16": "logo.png",
+    "48": "logo.png",
+    "128": "logo.png"
+  },
   "browser_action": {
     "default_icon": "logo.png",
     "default_popup": "popup.html"
@@ -12,23 +17,26 @@
   ],
   "background": {
     "scripts": [
-      "src/libs/ajax.js","src/libs/requester.js","src/intenta_background.js"
+      "intenta/src/libs/config.js",
+      "intenta/src/libs/ajax.js",
+      "intenta/src/libs/requester.js",
+      "intenta/src/background.js",
+      "app_background.js"
     ]
   },
-  "web_accessible_resources":[
-    "src/templates/*"
-  ],
+
   "content_scripts":[
   	{
   		"matches": [
   			"<all_urls>"
   		],
       "js": [
-        "src/libs/debugger.js",
-        "src/libs/ajax.js",
-        "src/libs/templates.js",
-        "src/libs/pixeler.js",
-        "app.js"
+        "intenta/src/libs/config.js",
+        "intenta/src/libs/debugger.js",
+        "intenta/src/libs/ajax.js",
+        "intenta/src/libs/templates.js",
+        "intenta/src/libs/pixeler.js",
+        "app_content_script.js"
       ]
   	}
   ]

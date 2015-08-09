@@ -1,4 +1,3 @@
-var IntentaVersion = "2015-07-25";
 
 var Ajax = {
   request: function(ops) {
@@ -6,7 +5,7 @@ var Ajax = {
     ops.url = ops.url || '';
     ops.method = ops.method || 'get'
     ops.data = ops.data || {};
-    ops.data['version'] = IntentaVersion;
+    ops.data['version'] = IntentaConfig.version;
     ops.withCredentials = true;
     var getParams = function(data, url) {
         var arr = [], str;

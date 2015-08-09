@@ -1,18 +1,18 @@
-jsStringEscape = require('./node_modules/js-string-escape')
-var UglifyJS = require('./node_modules/uglify-js')
+jsStringEscape = require('../node_modules/js-string-escape')
+var UglifyJS = require('../node_modules/uglify-js')
 
 fs = require('fs')
 console.log("Start");
 function getTemplateAsString(path){
-  file = './templates/'+path
+  file = '../templates/'+path
   console.log("Reading File: " + file);
   response = UglifyJS.minify([file]);
   response = jsStringEscape(response.code);
   return response;
 }
-templates = fs.readdirSync('./templates')
+templates = fs.readdirSync('../templates')
 
-fd = fs.openSync("./libs/templates.js", 'w');
+fd = fs.openSync("../libs/templates.js", 'w');
 fs.write(fd, "function IntentaTemplates(){");
 fs.write(fd, "\r\n");
 
