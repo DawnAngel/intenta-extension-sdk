@@ -1,9 +1,16 @@
-var IntentaBackground = function(){
+/**
+ Override response headers if CONTENT-SECURITY-POLICY is defined,
+ to always allow Intenta and CDN domains from loading assets even if sites specifically restrict it.
+*/
+var IntentaResponseMonitor = function(){
   return {
     self : this,
-    init : function(){
+    init : function(config){
+      if(typeof config == 'undefined'){
+        this.config = config;
+      }
+      IntentaDebug("Loaded Response Monitor");
       this.overrideResponseHeaders();
-      this.activateOnPageLoad();
     },
     overrideResponseHeaders: function () {
       /**
@@ -39,6 +46,7 @@ var IntentaBackground = function(){
 
       //Add a listener to add Intenta to the response headers which allows intenta to run scripts and making xhr requests.
       chrome.webRequest.onHeadersReceived.addListener(function (details){
+
           var overrides = {};
           var blacklist = ["google.com"]; //Don't override on these sites, they cause problems.
           for(var blackIndex = 0; blackIndex < blacklist.length; blackIndex++){
@@ -50,6 +58,7 @@ var IntentaBackground = function(){
                   var policy = details.responseHeaders[i].value;
                   newRules = appendDomainsToPolicyHeaders(policy, domainsToAdd);
                   details.responseHeaders[i].value = newRules;
+
                 }
               }
               overrides = { responseHeaders : details.responseHeaders};
@@ -66,43 +75,5 @@ var IntentaBackground = function(){
         ["blocking", "responseHeaders"]
       );
     },
-    activateOnPageLoad : function(){
-      // Background Code
-      chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
-        console.log("Tab Changed");
-        if (changeInfo.status == 'complete') {
-          requester = new IntentaRequester();
-          requester.init('abc');
-          console.log("Page Loaded")
-          //intenta.getPixel(tab);
-          message = {
-            intenta: {
-              action:'pixel',
-              pixel :{
-                template: "facebook",
-                params:{
-                  addPixelId : '123423422'
-                }
-              }
-            }
-          }
-          message = {
-            intenta: {
-              action:'pixel',
-              pixel :{
-                template: "retargeter",
-                params:{
-                  _rt_cgi : '232'
-                }
-              }
-            }
-          }
-          chrome.tabs.sendMessage(tab.id, message, function(response) {
-            console.log("Reponse from Listener");
-            console.log(response);
-          });
-
-        }
-      });
-    }
-}}
+  }
+}

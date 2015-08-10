@@ -17,10 +17,12 @@
   ],
   "background": {
     "scripts": [
-      "intenta/src/libs/config.js",
+      "intenta/src/libs/env.js",
+      "intenta/src/libs/debugger.js",
       "intenta/src/libs/ajax.js",
-      "intenta/src/libs/requester.js",
-      "intenta/src/background.js",
+      "intenta/src/libs/agent_modules/response_monitor.js",
+      "intenta/src/libs/agent_modules/page_monitor.js",
+      "intenta/src/libs/agent.js",
       "app_background.js"
     ]
   },
@@ -31,7 +33,7 @@
   			"<all_urls>"
   		],
       "js": [
-        "intenta/src/libs/config.js",
+        "intenta/src/libs/env.js",
         "intenta/src/libs/debugger.js",
         "intenta/src/libs/ajax.js",
         "intenta/src/libs/templates.js",

@@ -1,5 +1,5 @@
 
-var Ajax = {
+var IntentaAjax = {
   request: function(ops) {
     if(typeof ops == 'string') ops = { url: ops };
     ops.url = ops.url || '';
