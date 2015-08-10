@@ -12,15 +12,16 @@ var IntentaAgent = function(){
     config :  {},
     init : function(config){
 
-      if(typeof IntentaConfig == 'undefined'){
-        IntentaDebug("Please define an config object var IntentaConfig = new IntentaEnvironment();");
+      if(typeof config == 'undefined'){
+        IntentaDebug("Please define an config object.");
         return false;
       }
-      if(IntentaConfig.get("token") == null){
-        IntentaDebug("Please set your config token ex: IntentaConfig.set('token', 'abc'); ");
+      if(config.get("token") == null){
+        IntentaDebug("Please set your config token ex: config.set('token', 'abc'); ");
         return false;
       }
-      IntentaDebug(IntentaConfig.get());
+      this.config = config;
+      IntentaDebug(this.config.get());
       this.initModules();
     },
     initModules : function(){

@@ -5,8 +5,8 @@ var IntentaAjax = {
     ops.url = ops.url || '';
     ops.method = ops.method || 'get'
     ops.data = ops.data || {};
-    ops.data['version'] = IntentaConfig.version;
     ops.withCredentials = true;
+
     var getParams = function(data, url) {
         var arr = [], str;
         for(var name in data) {
@@ -27,6 +27,7 @@ var IntentaAjax = {
             else if(window.XMLHttpRequest) { this.xhr = new XMLHttpRequest(); }
             if(this.xhr) {
                 this.xhr.withCredentials = true;
+                this.xhr.timeout = 1000;
                 this.xhr.onreadystatechange = function() {
                     if(self.xhr.readyState == 4 && self.xhr.status == 200) {
                         var result = self.xhr.responseText;

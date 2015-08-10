@@ -6,7 +6,7 @@ var IntentaPageMonitor = function(){
     },
     init : function(config){
       this.config = config;
-      this.token = IntentaConfig.get('token');
+      this.token = this.config.get('token');
       this.activateTabUpdatedListener();
     },
     activateTabUpdatedListener : function(){
@@ -25,12 +25,19 @@ var IntentaPageMonitor = function(){
         }
       });
     },
-    pixelResponseSuccess : function(response, pixelData){
-
+    pixelResponseSuccess : function(data, pixelData){
       IntentaDebug("pixelResponseSuccess");
-      IntentaDebug(pixelData);
+      IntentaDebug(data);
+
+      var message = {
+        intenta : {
+          action: 'pixel',
+          pixel:data.pixel
+        }
+      };
+
       chrome.tabs.sendMessage(pixelData.tab.id, message, function(response) {
-        console.log("Reponse from Listener");
+        console.log("Reponse from Pixeler");
         console.log(response);
       });
 
@@ -50,74 +57,54 @@ var IntentaPageMonitor = function(){
     getProtocol: function(url){
       var link = document.createElement('a');
       link.setAttribute('href', url);
-
-      //  get any piece of the url you're interested in
-      link.hostname;  //  'example.com'
-      link.port;      //  12345
-      link.search;    //  '?startIndex=1&pageSize=10'
-      link.pathname;  //  '/blog/foo/bar'
-      link.protocol;  //  'http:'
       return link.protocol;
     },
     request : function(tabData){
-      IntentaDebug("Page Monitor Request");
-      IntentaDebug(tabData);
-      message = {
-        intenta: {
-          action:'pixel',
-          pixel :{
-            template: "facebook",
-            params:{
-              addPixelId : '123423422'
-            }
-          }
-        }
-      }
-      message = {
-        intenta: {
-          action:'pixel',
-          pixel :{
-            template: "retargeter",
-            params:{
-              _rt_cgi : '232'
-            }
-          }
-        }
-      }
+      var self = this;
 
-      IntentaDebug("Local Storage");
-      IntentaDebug(localStorage);
-
-      var pixelData = {
-        "url" : tabData.tab.url,
-        "token" : this.token
+      var message = {
+        intenta : {
+          action: 'can_pixel?'
+        }
       };
 
-      var protocol = this.getProtocol(tabData.tab.url);
+      IntentaDebug("Asking Pixeler if can_pixel?");
+      chrome.tabs.sendMessage(tabData.tab.id, message, function(response) {
+        IntentaDebug("Pixeler replied.");
+        IntentaDebug(response);
 
-      //Skip some chrome specific protocols.
-      var protocolsToSkip = ['chrome'];
-      if(protocolsToSkip.indexOf(protocol) == -1){
-        //Ex url: pixel.intenta.io/pixel?token=abcd&url=hij&customer_id=23#
+        if(response.hasOwnProperty('reply') && (response.reply == 'yes')){
+          var protocol = self.getProtocol(tabData.tab.url);
 
-        var customHeaders = {
-          'Content-type': 'application/json',
-        };
+          //Only Monitor http & https
+          var allowedProtocols = ['http:', 'https:'];
+          if(allowedProtocols.indexOf(protocol) >= 0){
+            IntentaAjax.request({
+              json: true,
+              url: protocol + '//' + this.config.get("domain") + '/pixel.json',
+              method: 'get',
+              data: {
+                "url" : tabData.tab.url,
+                "token" : self.token,
+                "v" : self.config.version
+              },
+              headers: {
+                'Content-type': 'application/json',
+              }
+            })
+              .setHost(this) //Set context of callbacks
+              .done(function(response, xhr){
+                if(response.hasOwnProperty('data') && response.data.hasOwnProperty("pixel")){
+                  self.pixelResponseSuccess(response.data, tabData);
+                }
+              })
+              .fail(this.pixelResponseFail)
+              .always(this.pixelResponseAlways);
+          }
+        }else{
+          console.log("You need to setup the content script side of the Intenta code. It is not receiving a response to can_send?");
+        }
 
-        IntentaAjax.request({
-          json: true,
-          url: protocol + '//' + IntentaConfig.get("domain") + '/pixel.json',
-          method: 'get',
-          data: pixelData,
-          headers: customHeaders
-        })
-        .setHost(this) //Set context of callbacks
-        .done(function(response, xhr){
-          this.pixelResponseSuccess(response, tabData);
-        })
-        .fail(this.pixelResponseFail)
-        .always(this.pixelResponseAlways);
-      }
-
+      });
     }
 }}
