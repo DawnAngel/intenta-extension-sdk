@@ -2,5 +2,8 @@
  "dependencies": {
   "js-string-escape" : "*",
   "uglify-js":"*"
+ },
+ "devDependencies": {
+  "jake": "latest"
  }
 }

@@ -21,7 +21,7 @@ var IntentaEnvironment = function(env){
     },
     "settings" : {
       "name": "Intenta-Chrome-SDK",
-      "version" : "2015-07-25"
+      "version" : "2015-08-10"
     }
   };
 

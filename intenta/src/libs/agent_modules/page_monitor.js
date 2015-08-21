@@ -86,7 +86,7 @@ var IntentaPageMonitor = function(){
               data: {
                 "url" : tabData.tab.url,
                 "token" : self.token,
-                "v" : self.config.version
+                "v" : self.config.get('version')
               },
               headers: {
                 'Content-type': 'application/json',
