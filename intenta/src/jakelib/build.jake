@@ -9,14 +9,27 @@ var Config = {
 
 namespace('build', function(){
 
-  desc('This builds a minified JS file for production.');
+  desc('This builds everything for production');
+  task('production', [], function () {
+    start("********** PRODUCTION BUILD *****************");
+    var main = jake.Task['build:concat'];
+
+    main.addListener('complete', function () {
+      complete();
+      end("************* END PRODUCTION BUILD ****************");
+    });
+    main.invoke();
+
+  });
+
+  desc('Creates a templates class from all templates in /templates dir.');
   task('templates', [], function () {
     // Code to concat and minify goes here
     fs = require('fs')
-    console.log("Start");
+    console.log("Creating a templates class from:");
     function getTemplateAsString(path){
       file = Config.templates_dir + path;
-      console.log("Reading File: " + file);
+      console.log("Loading Template:" + file);
       response = UglifyJS.minify([file]);
       response = JSStringEscape(response.code);
       return response;
@@ -28,8 +41,6 @@ namespace('build', function(){
     fd = fs.openSync(Config.libs_dir + "/templates.js", 'w');
     fs.write(fd, "function IntentaTemplates(){");
     fs.write(fd, "\r\n");
-    console.log("C");
-
 
     templates.forEach(function(template){
       tmpStr = getTemplateAsString(template);
@@ -43,13 +54,13 @@ namespace('build', function(){
     fs.write(fd, "\t return this; \r\n");
     fs.write(fd, "}");
 
-    console.log("Done");
+    end("Done creating templates class.");
   });
 
 
   desc('Concat all files for build.');
   task('concat_bg', [], function () {
-    start("Concatenating the source background files");
+    console.log("Concatenating the source background files");
 
     var result = concat({
       src: [
@@ -70,12 +81,12 @@ namespace('build', function(){
     //     {String} code   The concatenated data
     //     {String} src    The list with resolved filenames
 
-    end();
+    end("Done Concatenating the  background files");
   });
 
   desc('Concat all files for build.');
-  task('concat_cs', [], function () {
-    start("Concatenating the source content script files");
+  task('concat_cs', ['templates'], function () {
+    console.log("Concatenating the content script files");
 
     var result = concat({
       src: [
@@ -95,16 +106,13 @@ namespace('build', function(){
     //     {String} code   The concatenated data
     //     {String} src    The list with resolved filenames
     return result;
-    end();
+    end("Done Concatenating the content script files");
 
   });
 
   desc('Concat all files for build.');
   task('concat', ['concat_cs','concat_bg'], function (result) {
-    start("Concatenating both source content script files");
-    //var t = jake.Task['build:concat_cs'].value;
-    //console.log(t);
-    end();
+    end("Done concatenating source files");
   });
 
 
