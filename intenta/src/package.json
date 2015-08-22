@@ -1,9 +1,19 @@
 {
+ "package":"Intenta.io Chrome Extension SDK",
+ "homepage":"www.intenta.io",
+ "license":"UNLICENSED",
+ "bugs":{
+  "url" : "netplenish/intenta-plugin-example/issues",
+  "email" : "support@intenta.io"
+ },
+ "description":"Add intenta.io functionaltiy into your browser extension to monitize user data anonymously.",
+ "version":"2.0.0",
  "dependencies": {
   "js-string-escape" : "*",
   "uglify-js":"*"
  },
  "devDependencies": {
-  "jake": "latest"
+  "jake": "latest",
+  "jake-utils":"latest"
  }
 }

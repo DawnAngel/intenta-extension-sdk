@@ -1,0 +1,8 @@
+require('jake-utils');
+
+desc('This builds a minified JS file for production.');
+task('default', [], function () {
+
+
+  console.log("Default ");
+});

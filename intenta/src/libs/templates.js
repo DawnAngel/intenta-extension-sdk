@@ -10,5 +10,5 @@ function IntentaTemplates(){
  			return false;
  		}
  		}
-return this; 
+	 return this; 
 }
