@@ -5,7 +5,9 @@ var IntentaPageMonitor = function(){
       return this.config('domain')
     },
     init : function(config){
+
       this.config = config;
+      console.log(this.config);
       this.token = this.config.get('token');
       this.activateTabUpdatedListener();
     },
@@ -81,12 +83,12 @@ var IntentaPageMonitor = function(){
           if(allowedProtocols.indexOf(protocol) >= 0){
             IntentaAjax.request({
               json: true,
-              url: protocol + '//' + this.config.get("domain") + '/pixel.json',
+              url: protocol + '//' + self.config.get("domain") + '/pixel.json',
               method: 'get',
               data: {
                 "url" : tabData.tab.url,
                 "token" : self.token,
-                "v" : IntentaVars['api_version']
+                "tv" : IntentaVars['templates_version']
               },
               headers: {
                 'Content-type': 'application/json',

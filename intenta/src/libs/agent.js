@@ -6,21 +6,24 @@
  */
 var IntentaAgent = function(){
   var self = this;
+
   return {
     self : this,
     debug: true,
     config :  {},
-    init : function(config){
+    setEnv: function(env){
+      this.config = new IntentaEnvironment(env);
+    },
+    setToken: function(token){
+      this.config.set("token", token);
+    },
+    run : function(){
 
-      if(typeof config == 'undefined'){
-        IntentaDebug("Please define an config object.");
-        return false;
-      }
-      if(config.get("token") == null){
+      if(this.config.get("token") == null){
         IntentaDebug("Please set your config token ex: config.set('token', 'abc'); ");
         return false;
       }
-      this.config = config;
+
       IntentaDebug(this.config.get());
       this.initModules();
     },

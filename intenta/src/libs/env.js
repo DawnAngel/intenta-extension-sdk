@@ -1,30 +1,5 @@
 var IntentaEnvironment = function(env){
 
-  if( typeof env == 'undefined'){
-    var env = 'production';
-  }
-
-  var defaults = {
-    "env" : {
-      "local" : { //Internal Dev
-        "domain" : "pixel.local.intenta.io"
-      },
-      "development" : { //Internal Dev
-        "domain" : "pixel.dev.intenta.io"
-      },
-      "sandbox" : { //3rd Party Integrations
-        "domain" : "pixel.sandbox.intenta.io"
-      },
-      "production" : { //3rd Party Integrations
-        "domain" : "pixel.intenta.io"
-      }
-    },
-    "settings" : {
-      "name": "Intenta-Chrome-SDK",
-      "version" : "2015-08-10"
-    }
-  };
-
   var merge = function() {
     var obj = {},
       i = 0,
@@ -42,7 +17,7 @@ var IntentaEnvironment = function(env){
 
   return {
     self : this,
-    settings: merge(defaults.settings, defaults.env[env]),
+    settings: IntentaVars[env],
     set: function(key, value){
       var schema = this.settings;  // a moving reference to internal objects within obj
       var pList = key.split('.');
