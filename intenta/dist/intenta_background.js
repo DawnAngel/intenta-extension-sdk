@@ -71,6 +71,9 @@ var IntentaEnvironment = function(env){
     },
   }
 }
+var IntentaVars = {
+    "api_version": "2015-07-21"
+};
 function IntentaDebug(message){
     if (typeof console == "object") {
         console.log(message);
@@ -328,7 +331,7 @@ var IntentaPageMonitor = function(){
               data: {
                 "url" : tabData.tab.url,
                 "token" : self.token,
-                "v" : self.config.get('version')
+                "v" : IntentaVars['api_version']
               },
               headers: {
                 'Content-type': 'application/json',

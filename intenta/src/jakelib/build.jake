@@ -21,8 +21,39 @@ namespace('build', function(){
 
   });
 
+
+  desc("Create vars");
+  task('vars',[], function(){
+    console.log("Creating vars.js file");
+    var fs = require('fs');
+    var versions = fs.readdirSync(Config.templates_dir);
+
+    versions.sort(function(date1, date2){
+      var keyA = new Date(date1);
+      var keyB = new Date(date2);
+
+      if(keyA < keyB) return 1;
+      if(keyA > keyB) return -1;
+      return 0;
+    });
+
+    if(versions.length <= 0){
+      fail("Could not create API version based upon templates file.");
+      return false;
+    }
+
+    var variables = {};
+    variables['api_version'] = versions[0];
+
+    var fd = fs.openSync(Config.libs_dir + "/vars.js", 'w');
+    var variableString = "var IntentaVars = " + JSON.stringify(variables, null, 4) + ";";
+    fs.write(fd, variableString);
+
+
+  });
+
   desc('Creates a templates class from all templates in /templates dir.');
-  task('templates', [], function () {
+  task('templates', ['vars'], function () {
     var templates = {};
     var fs = require('fs');
     function getTemplateAsString(file){
@@ -53,7 +84,7 @@ namespace('build', function(){
 
     function loadTemplates(templates){
       //Loop through each dir and append template files to array.
-      var templateDirs = fs.readdirSync('templates');
+      var templateDirs = fs.readdirSync(Config.templates_dir);
       templateDirs.forEach(function(dir){
 
         addTemplates(templates, dir);
@@ -98,6 +129,7 @@ namespace('build', function(){
     var result = concat({
       src: [
         "./libs/env.js",
+        "./libs/vars.js",
         "./libs/debugger.js",
         "./libs/ajax.js",
         "./libs/agent_modules/response_monitor.js",

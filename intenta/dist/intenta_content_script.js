@@ -235,7 +235,7 @@ var IntentaPixeler = function(){
         var regExp = new RegExp("\\[\\["+key+"\\]\\]");
         template.src = template.src.replace(regExp, params[key]);
       }
-      
+
       return template;
     },
     addToDom: function(templateObj){
