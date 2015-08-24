@@ -1,7 +1,6 @@
 var UglifyJS = require('../node_modules/uglify-js');
 var JSStringEscape = require('../node_modules/js-string-escape')
 
-
 var Config = {
   templates_dir : "templates/",
   libs_dir:"libs/"
@@ -24,36 +23,70 @@ namespace('build', function(){
 
   desc('Creates a templates class from all templates in /templates dir.');
   task('templates', [], function () {
-    // Code to concat and minify goes here
-    fs = require('fs')
-    console.log("Creating a templates class from:");
-    function getTemplateAsString(path){
-      file = Config.templates_dir + path;
+    var templates = {};
+    var fs = require('fs');
+    function getTemplateAsString(file){
       console.log("Loading Template:" + file);
-      response = UglifyJS.minify([file]);
-      response = JSStringEscape(response.code);
+      var response = UglifyJS.minify([file]);
+      //response = JSStringEscape(response.code);
+      response = response.code;
       return response;
     }
 
-    templates = fs.readdirSync('templates')
+    function addTemplates(templates, dir){
+      var pathFinder = require('path')
 
 
-    fd = fs.openSync(Config.libs_dir + "/templates.js", 'w');
-    fs.write(fd, "function IntentaTemplates(){");
-    fs.write(fd, "\r\n");
+      var path = Config.templates_dir + dir;
+      var files = fs.readdirSync(path);
+      files.forEach(function(file){
+        var extension = pathFinder.extname(file);
 
-    templates.forEach(function(template){
-      tmpStr = getTemplateAsString(template);
-      fs.write(fd, "\t this." + template.replace('.js','') + " = \"" + tmpStr +"\";\r\n");
+        templates[file.replace(extension,'')] = {
+          template_name : templates[file.replace(extension,'')],
+          src : getTemplateAsString(path + '/' + file),
+          type : extension
+        };
+
+      });
+    }
+
+    function loadTemplates(templates){
+      //Loop through each dir and append template files to array.
+      var templateDirs = fs.readdirSync('templates');
+      templateDirs.forEach(function(dir){
+
+        addTemplates(templates, dir);
+      });
+    }
+
+    loadTemplates(templates);
+
+    //Write Templates Class
+    function createTemplatesClass(templates){
+
+      fd = fs.openSync(Config.libs_dir + "/templates.js", 'w');
+      fs.write(fd, "function IntentaTemplates(){");
       fs.write(fd, "\r\n");
-    });
 
-    fs.write(fd, "\t this.getTemplate = function(template){ \r\n \t if(this.hasOwnProperty(template)){\r\n \t\t return this[template];\r\n \t\t}else{\r\n \t\t\treturn false;\r\n \t\t}\r\n \t\t}");
+      //for (var templateName in templates){
+      //  fs.write(fd, "\t this." + templateName + " = \"" + templates[templateName] +"\";\r\n");
+      //  fs.write(fd, "\r\n");
+      //}
 
-    fs.write(fd, "\r\n");
-    fs.write(fd, "\t return this; \r\n");
-    fs.write(fd, "}");
 
+      var methods = fs.readFileSync(Config.libs_dir + "/_template_methods.js", "utf8");
+
+      //fs.write(fd, "\t this.getTemplate = function(template){ \r\n \t if(this.hasOwnProperty(template)){\r\n \t\t return this[template];\r\n \t\t}else{\r\n \t\t\treturn false;\r\n \t\t}\r\n \t\t}");
+      fs.write(fd, methods);
+      fs.write(fd, "\r\n\r\n\tthis.templates = " + JSON.stringify(templates, null, 4) + ";");
+
+      fs.write(fd, "\r\n");
+      fs.write(fd, "\t return this; \r\n");
+      fs.write(fd, "}");
+    }
+
+    createTemplatesClass(templates);
     end("Done creating templates class.");
   });
 

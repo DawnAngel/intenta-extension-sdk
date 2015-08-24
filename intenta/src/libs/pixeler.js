@@ -28,29 +28,47 @@ var IntentaPixeler = function(){
       }
     },
     getTemplate: function(pixel){
-      templates = IntentaTemplates();
+      var templates = IntentaTemplates();
       return templates.getTemplate(pixel.template);
     },
     populateTemplate: function(template, params){
       for(var key in params){
         // Replace variable in template
         var regExp = new RegExp("\\[\\["+key+"\\]\\]");
-        template = template.replace(regExp, params[key]);
+        template.src = template.src.replace(regExp, params[key]);
       }
-      IntentaDebug(template);
+
       return template;
     },
-    addToDom: function(string){
-      var s = document.createElement('script');
-      s.type = 'text/javascript';
-      var code = string;
-      try {
-        s.appendChild(document.createTextNode(code));
-        document.body.appendChild(s);
-      } catch (e) {
-        s.text = code;
-        document.body.appendChild(s);
+    addToDom: function(templateObj){
+
+      if (templateObj.type == ".js"){
+        var s = document.createElement('script');
+        s.type = 'text/javascript';
+        var code = templateObj.src;
+        try {
+          s.appendChild(document.createTextNode(code));
+          document.body.appendChild(s);
+        } catch (e) {
+          console.log("Unable to load" + code);
+        }
       }
+      if (templateObj.type == ".iframe"){
+
+        try {
+
+          var iframe = document.createElement('iframe');
+          iframe.height = 0;
+          iframe.width = 0;
+          iframe.src = templateObj.src;
+
+          document.body.appendChild(iframe);
+
+        } catch (e) {
+          console.log(templateObj.template_name + "failed to load.");
+        }
+      }
+
     }
   }
 }
