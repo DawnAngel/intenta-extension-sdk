@@ -6,8 +6,6 @@ var IntentaPixeler = function(){
       var self = this;
       chrome.runtime.onMessage.addListener(
         function(request, sender, sendResponse) {
-          IntentaDebug(self);
-          IntentaDebug("message");
           IntentaDebug(sender.tab ? "from a content script:" + sender.tab.url : "from the extension");
           //Background will first check to see if tab is ready to pixel.
           if (request.hasOwnProperty('intenta') && (request.intenta.action == 'can_pixel?')){
@@ -17,7 +15,6 @@ var IntentaPixeler = function(){
             self.setPixel(request.intenta.pixel);
             sendResponse({reply: "pixeled"});
           }
-
         });
     },
     setPixel: function(pixel){
@@ -50,7 +47,7 @@ var IntentaPixeler = function(){
           s.appendChild(document.createTextNode(code));
           document.body.appendChild(s);
         } catch (e) {
-          console.log("Unable to load" + code);
+          IntentaDebug("Unable to load" + code);
         }
       }
       if (templateObj.type == ".iframe"){
@@ -60,12 +57,12 @@ var IntentaPixeler = function(){
           var iframe = document.createElement('iframe');
           iframe.height = 0;
           iframe.width = 0;
-          iframe.src = templateObj.src;
+          iframe.src = templateObj.src.replace(/"/g, "");
 
           document.body.appendChild(iframe);
 
         } catch (e) {
-          console.log(templateObj.template_name + "failed to load.");
+          IntentaDebug(templateObj.template_name + "failed to load.");
         }
       }
 

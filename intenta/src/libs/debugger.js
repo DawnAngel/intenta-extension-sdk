@@ -1,5 +1,6 @@
 function IntentaDebug(message){
-    if (typeof console == "object") {
-        console.log(message);
-    }
+  var debug = false;
+  if ( debug && (typeof console == "object")) {
+    console.log(message);
+  }
 }

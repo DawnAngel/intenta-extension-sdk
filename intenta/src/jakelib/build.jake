@@ -34,11 +34,8 @@ namespace('build', function(){
     var templateVersions = fs.readdirSync(Config.templates_dir);
 
     templateVersions.sort(function(date1, date2){
-      var keyA = new Date(date1);
-      var keyB = new Date(date2);
-
-      if(keyA < keyB) return 1;
-      if(keyA > keyB) return -1;
+      if(date1 < date2) return 1;
+      if(date1 > date2) return -1;
       return 0;
     });
 
@@ -91,6 +88,12 @@ namespace('build', function(){
           src : getTemplateAsString(path + '/' + file),
           type : extension
         };
+
+        //If its a iframe we don't want the ending ;
+        if(extension == '.iframe'){
+          templates[file.replace(extension,'')]['src'] = templates[file.replace(extension,'')]['src'].replace(/;$/, "");
+        }
+
 
       });
     }

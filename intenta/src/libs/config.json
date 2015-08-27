@@ -1,15 +1,15 @@
 {
   "local" : {
-    "domain" : "pixel.local.intenta.io"
+    "domain" : "pixel.local.intenta.io",
+    "debug" : true
   },
   "development" : {
-    "domain" : "pixel.dev.intenta.io"
-  },
-  "sandbox" : {
-    "domain" : "pixel.sandbox.intenta.io"
+    "domain" : "pixel.dev.intenta.io",
+    "debug" : true
   },
   "production" : {
-    "domain" : "pixel.intenta.io"
+    "domain" : "pixel.intenta.io",
+    "debug" : false
   },
   "global":{
     "name": "Intenta-Chrome-SDK"

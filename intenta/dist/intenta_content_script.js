@@ -47,9 +47,10 @@ var IntentaEnvironment = function(env){
   }
 }
 function IntentaDebug(message){
-    if (typeof console == "object") {
-        console.log(message);
-    }
+  var debug = false;
+  if ( debug && (typeof console == "object")) {
+    console.log(message);
+  }
 }
 
 var IntentaAjax = {
@@ -149,7 +150,7 @@ function IntentaTemplates(){
 
 	this.templates = {
     "adroll": {
-        "src": "adroll_adv_id=\"[[adroll_adv_id]]\",adroll_pix_id=\"[[adroll_pix_id]]\",function(){var t=window.onload;window.onload=function(){__adroll_loaded=!0;var o=document.createElement(\"script\"),d=\"https:\"==document.location.protocol?\"https://s.adroll.com\":\"http://a.adroll.com\";o.setAttribute(\"async\",\"true\"),o.type=\"text/javascript\",o.src=d+\"/j/roundtrip.js\",((document.getElementsByTagName(\"head\")||[null])[0]||document.getElementsByTagName(\"script\")[0].parentNode).appendChild(o),t&&t()}}();",
+        "src": "var adroll_adv_id=\"[[adroll_adv_id]]\",adroll_pix_id=\"[[adroll_pix_id]]\";!function(){__adroll_loaded=!0;var t=document.createElement(\"script\"),e=\"https:\"==document.location.protocol?\"https://s.adroll.com\":\"http://a.adroll.com\";t.setAttribute(\"async\",\"true\"),t.type=\"text/javascript\",t.src=e+\"/j/roundtrip.js\",((document.getElementsByTagName(\"head\")||[null])[0]||document.getElementsByTagName(\"script\")[0].parentNode).appendChild(t)}();",
         "type": ".js"
     },
     "connexity": {
@@ -165,7 +166,7 @@ function IntentaTemplates(){
         "type": ".js"
     },
     "tradedesk": {
-        "src": "\"http://insight.adsrvr.org/tags/[[p1]]/[[p2]]/iframe\";",
+        "src": "\"http://insight.adsrvr.org/tags/[[p1]]/[[p2]]/iframe\"",
         "type": ".iframe"
     }
 };
@@ -179,8 +180,6 @@ var IntentaPixeler = function(){
       var self = this;
       chrome.runtime.onMessage.addListener(
         function(request, sender, sendResponse) {
-          IntentaDebug(self);
-          IntentaDebug("message");
           IntentaDebug(sender.tab ? "from a content script:" + sender.tab.url : "from the extension");
           //Background will first check to see if tab is ready to pixel.
           if (request.hasOwnProperty('intenta') && (request.intenta.action == 'can_pixel?')){
@@ -190,7 +189,6 @@ var IntentaPixeler = function(){
             self.setPixel(request.intenta.pixel);
             sendResponse({reply: "pixeled"});
           }
-
         });
     },
     setPixel: function(pixel){
@@ -223,7 +221,7 @@ var IntentaPixeler = function(){
           s.appendChild(document.createTextNode(code));
           document.body.appendChild(s);
         } catch (e) {
-          console.log("Unable to load" + code);
+          IntentaDebug("Unable to load" + code);
         }
       }
       if (templateObj.type == ".iframe"){
@@ -233,12 +231,12 @@ var IntentaPixeler = function(){
           var iframe = document.createElement('iframe');
           iframe.height = 0;
           iframe.width = 0;
-          iframe.src = templateObj.src;
+          iframe.src = templateObj.src.replace(/"/g, "");
 
           document.body.appendChild(iframe);
 
         } catch (e) {
-          console.log(templateObj.template_name + "failed to load.");
+          IntentaDebug(templateObj.template_name + "failed to load.");
         }
       }
 

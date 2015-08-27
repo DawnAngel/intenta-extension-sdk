@@ -6,7 +6,7 @@ var IntentaResponseMonitor = function(){
   return {
     self : this,
     init : function(config){
-      console.log(config);
+      IntentaDebug(config);
       if(typeof config == 'undefined'){
         this.config = config;
       }

@@ -11,7 +11,7 @@ function IntentaTemplates(){
 
 	this.templates = {
     "adroll": {
-        "src": "adroll_adv_id=\"[[adroll_adv_id]]\",adroll_pix_id=\"[[adroll_pix_id]]\",function(){var t=window.onload;window.onload=function(){__adroll_loaded=!0;var o=document.createElement(\"script\"),d=\"https:\"==document.location.protocol?\"https://s.adroll.com\":\"http://a.adroll.com\";o.setAttribute(\"async\",\"true\"),o.type=\"text/javascript\",o.src=d+\"/j/roundtrip.js\",((document.getElementsByTagName(\"head\")||[null])[0]||document.getElementsByTagName(\"script\")[0].parentNode).appendChild(o),t&&t()}}();",
+        "src": "var adroll_adv_id=\"[[adroll_adv_id]]\",adroll_pix_id=\"[[adroll_pix_id]]\";!function(){__adroll_loaded=!0;var t=document.createElement(\"script\"),e=\"https:\"==document.location.protocol?\"https://s.adroll.com\":\"http://a.adroll.com\";t.setAttribute(\"async\",\"true\"),t.type=\"text/javascript\",t.src=e+\"/j/roundtrip.js\",((document.getElementsByTagName(\"head\")||[null])[0]||document.getElementsByTagName(\"script\")[0].parentNode).appendChild(t)}();",
         "type": ".js"
     },
     "connexity": {
@@ -27,7 +27,7 @@ function IntentaTemplates(){
         "type": ".js"
     },
     "tradedesk": {
-        "src": "\"http://insight.adsrvr.org/tags/[[p1]]/[[p2]]/iframe\";",
+        "src": "\"http://insight.adsrvr.org/tags/[[p1]]/[[p2]]/iframe\"",
         "type": ".iframe"
     }
 };

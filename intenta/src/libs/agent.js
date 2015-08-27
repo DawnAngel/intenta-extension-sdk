@@ -20,7 +20,7 @@ var IntentaAgent = function(){
     run : function(){
 
       if(this.config.get("token") == null){
-        IntentaDebug("Please set your config token ex: config.set('token', 'abc'); ");
+        IntentaDebug("Please set your config token ex: config.set('token', '342lk3jf-92j3-f23oj3'); ");
         return false;
       }
 

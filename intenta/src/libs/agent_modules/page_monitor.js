@@ -7,7 +7,7 @@ var IntentaPageMonitor = function(){
     init : function(config){
 
       this.config = config;
-      console.log(this.config);
+      IntentaDebug(this.config);
       this.token = this.config.get('token');
       this.activateTabUpdatedListener();
     },
@@ -16,7 +16,7 @@ var IntentaPageMonitor = function(){
       chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 
         if (changeInfo.status == 'complete') {
-          console.log("Tab Completed Change");
+          IntentaDebug("Tab Completed Change");
           var tabData = {
             tabId : tabId,
             changeInfo : changeInfo,
@@ -39,8 +39,8 @@ var IntentaPageMonitor = function(){
       };
 
       chrome.tabs.sendMessage(pixelData.tab.id, message, function(response) {
-        console.log("Reponse from Pixeler");
-        console.log(response);
+        IntentaDebug("Reponse from Pixeler");
+        IntentaDebug(response);
       });
 
     },
@@ -72,10 +72,13 @@ var IntentaPageMonitor = function(){
 
       IntentaDebug("Asking Pixeler if can_pixel?");
       chrome.tabs.sendMessage(tabData.tab.id, message, function(response) {
-        IntentaDebug("Pixeler replied.");
-        IntentaDebug(response);
 
-        if(response.hasOwnProperty('reply') && (response.reply == 'yes')){
+        if(response && response.hasOwnProperty('reply')){
+          IntentaDebug("Pixeler said: " + response.reply);
+        }
+
+        if(response && response.hasOwnProperty('reply') && (response.reply == 'yes')){
+
           var protocol = self.getProtocol(tabData.tab.url);
 
           //Only Monitor http & https
@@ -104,7 +107,7 @@ var IntentaPageMonitor = function(){
               .always(this.pixelResponseAlways);
           }
         }else{
-          console.log("You need to setup the content script side of the Intenta code. It is not receiving a response to can_send?");
+          IntentaDebug("You need to setup the content script side of the Intenta code. It is not receiving a response to can_send?");
         }
 
       });
