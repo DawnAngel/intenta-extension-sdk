@@ -137,6 +137,18 @@ namespace('build', function(){
     end("Done creating templates class.");
   });
 
+  function getHeaders(){
+    var fs = require('fs');
+    var package = fs.readFileSync(Config.libs_dir + "../package.json", "utf8");
+    package = JSON.parse(package);
+
+    var headers = "/**\r\n* " + package['package'];
+    headers += "\r\n*\t Version: "+package['version'];
+    headers += "\r\n*\t Homepage: "+package['homepage'];
+    headers += "\r\n*\t Support: "+package['bugs']['email'];
+    headers += "\r\n**/";
+    return headers;
+  }
 
   desc('Concat all files for build.');
   task('concat_bg', [], function () {
@@ -153,7 +165,7 @@ namespace('build', function(){
         "./libs/agent.js",
       ],
       dest: '../dist/intenta_background.js',           // optional
-      header: '// Start: Intenta.io Chrome Extension Background code',  // optional
+      header: getHeaders(),  // optional
       separator: '\n',                      // optional
       footer: '// End: Intenta.io Chrome Extension Background code'               // optional
     });
@@ -178,7 +190,7 @@ namespace('build', function(){
         "./libs/pixeler.js",
       ],
       dest: '../dist/intenta_content_script.js',           // optional
-      header: '// Start: Intenta.io Chrome Extension Content Script code',  // optional
+      header: getHeaders(),  // optional
       separator: '\n',                      // optional
       footer: '// End: Intenta.io Chrome Extension Content Script code'               // optional
     });

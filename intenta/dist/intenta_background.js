@@ -1,4 +1,9 @@
-// Start: Intenta.io Chrome Extension Background code
+/**
+* Intenta.io Chrome Extension SDK
+*	 Version: 2.0.0
+*	 Homepage: www.intenta.io
+*	 Support: support@intenta.io
+**/
 var IntentaEnvironment = function(env){
 
   var merge = function() {
