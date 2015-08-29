@@ -5,7 +5,7 @@ An SDK to integrate Intenta's monetization platform into browser extensions.
 
 Assuming you have a vendors directory in your application /vendors
 
-Copy the contents of intenta/dist into your application.
+Copy the contents of [https://github.com/netplenish/intenta-extension-sdk/tree/master/intenta/dist](intenta/dist) into your application.
 
 You will end up with 
 
