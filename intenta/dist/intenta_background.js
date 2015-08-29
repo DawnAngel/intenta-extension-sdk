@@ -351,7 +351,7 @@ var IntentaPageMonitor = function(){
               .always(this.pixelResponseAlways);
           }
         }else{
-          IntentaDebug("You need to setup the content script side of the Intenta code. It is not receiving a response to can_send?");
+          console.error("You need to setup the content script side of the Intenta code. It is not receiving a response to can_send?");
         }
 
       });
