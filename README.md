@@ -3,6 +3,17 @@ An SDK to integrate Intenta's monetization platform into browser extensions.
 
 ## Integration Steps
 
+Assuming you have a vendors directory in your application /vendors
+
+Copy the contents of intenta/dist into your application.
+
+You will end up with 
+
+```
+/vendors/intenta/dist/intenta_background.js
+/vendors/intenta/dist/intenta_content_script.js
+```
+
 ### Configure the Background Script
 The background script is in charge of all intenta API communications.
 
@@ -11,7 +22,7 @@ Ex:
 ```
 "background": {
     "scripts": [
-      "intenta_background.js",
+      "vendors/intenta/dist/intenta_background.js",
       "your_app_background_code.js"
     ]
   }
@@ -43,7 +54,7 @@ Ex:
   			"<all_urls>"
   		],
       "js": [
-        "intenta_content_script.js",
+        "vendors/intenta/dist/intenta_content_script.js",
         "your_app_content_script.js"
       ]
   	}
