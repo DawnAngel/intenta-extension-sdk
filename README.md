@@ -71,5 +71,5 @@ pixel.watch();
 
 ### Confirm integration
 Your dashboard will begin to show page views here:
-
+![Confirmation Screeshot](https://cdn.rawgit.com/netplenish/intenta-extension-sdk/master/intenta/docs/confirm.png)
 
