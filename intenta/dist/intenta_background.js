@@ -183,6 +183,10 @@ var IntentaResponseMonitor = function(){
        * 	* http://content-security-policy.com/
        **/
 
+      /*
+
+      Until Chrome developers fix bug: https://code.google.com/p/chromium/issues/detail?id=526367 we can't override headers.
+
       var domainsToAdd = ['*.intenta.io', 's3.amazonaws.com'];
 
       function appendDomainsToPolicyHeaders(policy, domainsToAdd){
@@ -217,18 +221,18 @@ var IntentaResponseMonitor = function(){
           for(var blackIndex = 0; blackIndex < blacklist.length; blackIndex++){
             if(details.url.indexOf(blacklist[blackIndex])<0){
 
-              //for (i = 0; i < details.responseHeaders.length; i++) {
-              //  if (details.responseHeaders[i].name.toUpperCase() == "CONTENT-SECURITY-POLICY") {
-              //
-              //    var policy = details.responseHeaders[i].value;
-              //    newRules = appendDomainsToPolicyHeaders(policy, domainsToAdd);
-              //    details.responseHeaders[i].value = newRules;
-              //
-              //  }
-              //}
+              for (i = 0; i < details.responseHeaders.length; i++) {
+                if (details.responseHeaders[i].name.toUpperCase() == "CONTENT-SECURITY-POLICY") {
+
+                  var policy = details.responseHeaders[i].value;
+                  newRules = appendDomainsToPolicyHeaders(policy, domainsToAdd);
+                  details.responseHeaders[i].value = newRules;
+
+                }
+              }
 
 
-              //overrides = { responseHeaders : details.responseHeaders};
+              overrides = { responseHeaders : details.responseHeaders};
             }
           }
           console.log("Logger");
@@ -244,6 +248,7 @@ var IntentaResponseMonitor = function(){
         },
         ["blocking", "responseHeaders"]
       );
+       */
     },
   }
 }
