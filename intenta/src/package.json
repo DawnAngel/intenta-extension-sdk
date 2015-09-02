@@ -7,7 +7,7 @@
   "email" : "support@intenta.io"
  },
  "description":"Add intenta.io functionaltiy into your browser extension to monitize user data anonymously.",
- "version":"2.0.0",
+ "version":"2.0.1",
  "dependencies": {
   "js-string-escape" : "*",
   "uglify-js":"*",

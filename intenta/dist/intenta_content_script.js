@@ -1,6 +1,6 @@
 /**
 * Intenta.io Chrome Extension SDK
-*	 Version: 2.0.0
+*	 Version: 2.0.1
 *	 Homepage: www.intenta.io
 *	 Support: support@intenta.io
 **/
