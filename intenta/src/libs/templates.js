@@ -1,5 +1,5 @@
-
-function IntentaTemplates(){  this.getTemplate = function(templateName){
+function IntentaTemplates(){
+  this.getTemplate = function(templateName){
 
     if(this.templates.hasOwnProperty(templateName)){
       var templateObject = this.templates[templateName];

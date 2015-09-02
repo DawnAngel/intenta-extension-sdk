@@ -1,6 +1,6 @@
 IntentaDebug("Loaded BG");
 
 var agent = new IntentaAgent();
-agent.setEnv('local');
-agent.setToken('test');
+agent.setEnv('production');
+agent.setToken('abc');
 agent.run();

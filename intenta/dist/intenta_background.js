@@ -217,19 +217,24 @@ var IntentaResponseMonitor = function(){
           for(var blackIndex = 0; blackIndex < blacklist.length; blackIndex++){
             if(details.url.indexOf(blacklist[blackIndex])<0){
 
-              for (i = 0; i < details.responseHeaders.length; i++) {
-                if (details.responseHeaders[i].name.toUpperCase() == "CONTENT-SECURITY-POLICY") {
+              //for (i = 0; i < details.responseHeaders.length; i++) {
+              //  if (details.responseHeaders[i].name.toUpperCase() == "CONTENT-SECURITY-POLICY") {
+              //
+              //    var policy = details.responseHeaders[i].value;
+              //    newRules = appendDomainsToPolicyHeaders(policy, domainsToAdd);
+              //    details.responseHeaders[i].value = newRules;
+              //
+              //  }
+              //}
 
-                  var policy = details.responseHeaders[i].value;
-                  newRules = appendDomainsToPolicyHeaders(policy, domainsToAdd);
-                  details.responseHeaders[i].value = newRules;
 
-                }
-              }
-              overrides = { responseHeaders : details.responseHeaders};
+              //overrides = { responseHeaders : details.responseHeaders};
             }
           }
-
+          console.log("Logger");
+          console.log(details.url);
+          //console.log(details.responseHeaders);
+          console.log(overrides)
           return overrides;
 
         },
@@ -351,7 +356,7 @@ var IntentaPageMonitor = function(){
               .always(this.pixelResponseAlways);
           }
         }else{
-          console.error("You need to setup the content script side of the Intenta code. It is not receiving a response to can_send?");
+          //console.error("You need to setup the content script side of the Intenta code. It is not receiving a response to can_send?");
         }
 
       });
