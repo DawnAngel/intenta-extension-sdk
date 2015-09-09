@@ -6,7 +6,7 @@ var IntentaPixeler = function(){
       var self = this;
       chrome.runtime.onMessage.addListener(
         function(request, sender, sendResponse) {
-          IntentaDebug(sender.tab ? "from a content script:" + sender.tab.url : "from the extension");
+          //IntentaDebug(sender.tab ? "from a content script:" + sender.tab.url : "from the extension");
           //Background will first check to see if tab is ready to pixel.
           if (request.hasOwnProperty('intenta') && (request.intenta.action == 'can_pixel?')){
             sendResponse({reply: "yes"});
