@@ -1,8 +1,8 @@
 /**
 * Intenta.io Chrome Extension SDK
-*	 Version: 2.0.1
-*	 Homepage: www.intenta.io
-*	 Support: support@intenta.io
+*   Version: 2.0.1
+*   Homepage: www.intenta.io
+*   Support: support@intenta.io
 **/
 var IntentaEnvironment = function(env){
 
@@ -153,7 +153,7 @@ function IntentaTemplates(){
     }
   }
 
-	this.templates = {
+  this.templates = {
     "adroll": {
         "src": "var adroll_adv_id=\"[[adroll_adv_id]]\",adroll_pix_id=\"[[adroll_pix_id]]\";!function(){__adroll_loaded=!0;var t=document.createElement(\"script\"),e=\"https:\"==document.location.protocol?\"https://s.adroll.com\":\"http://a.adroll.com\";t.setAttribute(\"async\",\"true\"),t.type=\"text/javascript\",t.src=e+\"/j/roundtrip.js\",((document.getElementsByTagName(\"head\")||[null])[0]||document.getElementsByTagName(\"script\")[0].parentNode).appendChild(t)}();",
         "type": ".js"
@@ -174,8 +174,8 @@ function IntentaTemplates(){
         "src": "\"http://insight.adsrvr.org/tags/[[p1]]/[[p2]]/iframe\"",
         "type": ".iframe"
     }
-};
-	 return this; 
+  };
+  return this;
 }
 var IntentaPixeler = function(){
   return {
@@ -248,4 +248,7 @@ var IntentaPixeler = function(){
     }
   }
 }
+
+var intentaPixel = new IntentaPixeler();
+intentaPixel.watch();
 // End: Intenta.io Chrome Extension Content Script code
